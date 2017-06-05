@@ -1,0 +1,149 @@
+#!/bin/bash
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+enable_color_support() {
+
+  if [[ $COLORTERM == gnome-* && $TERM == xterm ]] \
+    && infocmp gnome-256color &> /dev/null; then
+    export TERM="gnome-256color"
+  elif infocmp xterm-256color &> /dev/null; then
+    export TERM="xterm-256color"
+  fi
+
+  . "${HOME}/.bash_colors"
+
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# [!] Don't break this function into smaller, more specialized ones
+# as you will only pollute the global space even more. This function
+# cannot be unset because it's called every time the prompt string
+# is shown.
+
+prompt_git() {
+
+  local s=""
+  local branchName=""
+
+  # Check if the current directory is in a Git repository.
+  if [ "$(git rev-parse --is-inside-work-tree &>/dev/null; echo \"${?}\")" == '0' ]; then
+
+    # check if the current directory is in .git before running git checks
+    if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
+
+      # Ensure the index is up to date.
+      git update-index --really-refresh -q &>/dev/null
+
+      # Check for uncommitted changes in the index.
+      if ! git diff --quiet --ignore-submodules --cached; then
+        s+='+'
+      fi
+
+      # Check for unstaged changes.
+      if ! git diff-files --quiet --ignore-submodules; then
+        s+='!'
+      fi
+
+      # Check for untracked files.
+      if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+        s+='?'
+      fi
+
+      # Check for stashed files.
+      if git rev-parse --verify refs/stash &>/dev/null; then
+        s+='$'
+      fi
+
+    fi
+
+    # Get the short symbolic ref.
+    # If HEAD isn’t a symbolic ref, get the short SHA for the latest commit
+    # Otherwise, just give up.
+    branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
+      git rev-parse --short HEAD 2> /dev/null || \
+      printf "%s" "(unknown)")"
+
+    [ -n "${s}" ] && s=" [${s}]"
+
+    printf "%s" "${1}${branchName}${2}${s}"
+  else
+    return
+  fi
+
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+set_prompts() {
+
+  local reset="\e[0m"
+
+  local pinkish="\e[38;2;247;82;121m"
+  local blueish="\e[38;2;43;143;231m"
+
+  local blue="\e[1;34m"
+  local cyan="\e[1;36m"
+  local magenta="\e[1;35m"
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  # Prompt Statement variables.
+  # http://ss64.com/bash/syntax-prompt.html
+
+  # ------------------------------------------------------------------
+  # | PS1 - Default interactive prompt                               |
+  # ------------------------------------------------------------------
+
+  PS1="\[\033]0;\W\007\]"    # Terminal title (set to the
+                             # current working directory)
+
+  PS1+="\[${reset}\]\n"        # New line
+  PS1+="\[${pinkish}\]\u"          # Username
+  PS1+="\[${pinkish}\]@"
+  PS1+="\[${pinkish}\]\h"          # Host
+  PS1+="\[${reset}\] in "
+  PS1+="\[${blueish}\]\w"         # Working directory
+  PS1+="\$(prompt_git '${reset} on ${pinkish}')" # Git details
+  PS1+="\n"
+  PS1+="\[${reset}\]\[${pinkish}\]$ \[${reset}\]"
+
+  export PS1
+
+  # ------------------------------------------------------------------
+  # | PS2 - Continuation interactive prompt                          |
+  # ------------------------------------------------------------------
+
+  export PS2="> "
+
+  # ------------------------------------------------------------------
+  # | PS4 - Debug prompt string  (when using `set -x`)               |
+  # ------------------------------------------------------------------
+  # \011 - tab
+  # [!] Don't change to double quotes
+
+  export PS4='+\011${blue}${BASH_SOURCE}${reset}:${cyan}${LINENO}\011${FUNCNAME[0]:+${magenta}${FUNCNAME[0]}()${reset}: }'
+  #           │                  │                          │                               └ Function name and code
+  #           │                  │                          └ Line number
+  #           │                  └ Source file name
+  #           └ Char to repeat for each stack level
+
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+main() {
+  enable_color_support
+  set_prompts
+}
+
+main
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Cleanup.
+
+unset -f enable_color_support
+unset -f set_prompts
+unset -f main

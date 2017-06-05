@@ -1,0 +1,67 @@
+[alias]
+  # View abbreviated SHA, description, and history graph of the latest 20 commits
+  l = log --oneline --graph --abbrev-commit
+
+  # Show verbose output about tags, branches or remotes
+  tags = tag -l
+  branches = branch -a
+  remotes = remote -v
+
+  # Amend the currently staged files to the latest commit
+  amend = commit --amend --reuse-message=HEAD
+
+  # Credit an author on the latest commit
+  credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
+
+  # List contributors with number of commits
+  contributors = shortlog --summary --numbered
+
+[color]
+  # Use colors in Git commands that are capable of colored output when
+  # outputting to the terminal. (This is the default setting in Git = 1.8.4.)
+  ui = auto
+
+[color "branch"]
+  current = white reverse
+  local = yellow bold
+  remote = cyan bold
+
+[color "diff"]
+  frag = magenta bold
+  meta = yellow bold
+  new = green
+  old = red
+
+[color "status"]
+  added = green reverse
+  changed = yellow reverse
+  untracked = red reverse
+
+[core]
+  abbrev = 12
+  attributesfile = ~/.gitattributes
+  autocrlf = input
+  editor = vim
+  excludesfile = ~/.gitignore
+
+[diff]
+  # Detect copies as well as renames
+  renames = copies
+
+[diff "bin"]
+    # Use `hexdump` to diff binary files.
+    textconv = hexdump -v -C
+
+[pretty]
+  custom = "%C(magenta)%h%C(red)%d %C(yellow)%ar %C(green)%s %C(yellow)(%an)"
+  #                     │        │            │            │             └─ author name
+  #                     │        │            │            └─ message
+  #                     │        │            └─ date (relative)
+  #                     │        └─ decorations (branch, heads or tags)
+  #                     └─ hash (abbreviated)
+
+
+[push]
+  # Make `git push` automatically push relevant
+  # annotated tags when pushing branches out.
+  followTags = true
