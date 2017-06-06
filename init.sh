@@ -45,7 +45,7 @@ doIt() {
   sudo ./install/main.sh
 
   if [ -x ./sensible/init.sh ]; then
-    printf "\n%s" "• Running sensibles..."
+    printf "\n%s\n" "• Running sensibles..."
     source ./sensible/init.sh
   fi
 
