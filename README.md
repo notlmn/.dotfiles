@@ -42,7 +42,7 @@ The `sensible/` contains `init.sh` which is used to run some sensitive tasks (li
 Inspiration and code was taken from many sources, including:
 
 * [Cătălin Mariș dotfiles](https://github.com/alrra/dotfiles)
-* [Mathias Bynens' dotfiles](https://github.com/mathialbynens/dotfiles)
+* [Mathias Bynens' dotfiles](https://github.com/mathiasbynens/dotfiles)
 * [Paul Irish's dotfiles](https://github.com/paulirish/dotfiles)
 * ...and other forgotten sources
 
