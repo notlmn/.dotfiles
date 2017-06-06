@@ -49,7 +49,7 @@ doIt() {
     source ./sensible/init.sh
   fi
 
-  printf "\n%s" "You're good to go!"
+  printf "\n%s\n" "You're good to go!"
 }
 
 print_in_color "          __      __  _____ __            \n" 1

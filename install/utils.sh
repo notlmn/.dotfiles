@@ -272,7 +272,7 @@ show_spinner() {
 
     # Clear frame text.
 
-    printf "\r"
+    printf "\e[2K\r"
 
   done
 
