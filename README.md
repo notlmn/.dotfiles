@@ -29,6 +29,15 @@ The `sensible/` contains `init.sh` which is used to run some sensitive tasks (li
   Grey         | `#CDCDCD`     | `205, 205, 205`
   White        | `#FFFFFF`     | `255, 255, 255`
 
+### Screenshots
+
+* Installation
+  ![Screenshot of installation](media/init.png "Screenshot of installation")
+* Vim
+  ![Screenshot of vim](media/vim.png "Screenshot of vim")
+* tmux
+  ![Screenshot of tmux](media/tmux.png "Screenshot of tmux")
+
 ## Acknowledgements
 Inspiration and code was taken from many sources, including:
 
