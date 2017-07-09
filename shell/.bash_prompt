@@ -11,7 +11,7 @@ enable_color_support() {
     export TERM="xterm-256color"
   fi
 
-  . "${HOME}/.bash_colors"
+  source "$HOME/.bash_colors"
 
 }
 
@@ -66,7 +66,7 @@ prompt_git() {
     || git rev-parse --short HEAD 2> /dev/null \
     || printf "(unknown)" )" | tr -d "\n" )"
 
-  printf "%s" "${1}${branchName}${2}${tmp}"
+  printf "%s" "$1$branchName$2$tmp"
 
 }
 
@@ -76,9 +76,7 @@ set_prompts() {
 
   local reset="\e[0m"
 
-  local pinkish="\e[38;2;247;82;121m"
-  local blueish="\e[38;2;43;143;231m"
-
+  local red="\e[1;31m"
   local blue="\e[1;34m"
   local cyan="\e[1;36m"
   local magenta="\e[1;35m"
@@ -93,17 +91,17 @@ set_prompts() {
   # ------------------------------------------------------------------
 
   PS1="\[\033]0;\W\007\]"    # Terminal title (set to the
-                             # current working directory)
+                         # current working directory)
 
-  PS1+="\[${reset}\]\n"        # New line
-  PS1+="\[${pinkish}\]\u"          # Username
-  PS1+="\[${pinkish}\]@"
-  PS1+="\[${pinkish}\]\h"          # Host
-  PS1+="\[${reset}\] in "
-  PS1+="\[${blueish}\]\w"         # Working directory
-  PS1+="\$(prompt_git \"${reset} on ${pinkish}\")" # Git details
+  PS1+="$reset\n"        # New line
+  PS1+="$red\u"          # Username
+  PS1+="$red@"
+  PS1+="$red\h"          # Host
+  PS1+="$reset in "
+  PS1+="$blue\w"         # Working directory
+  PS1+="\$(prompt_git \"$reset on $red\")" # Git details
   PS1+="\n"
-  PS1+="\[${reset}\]\[${pinkish}\]$ \[${reset}\]"
+  PS1+="$reset$red\$ $reset"
 
   export PS1
 

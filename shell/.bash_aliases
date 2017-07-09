@@ -16,7 +16,10 @@ alias q="exit"
 alias rm="rm -rf --"
 alias t="tmux"
 
-# Reload shel
+# Quickly change to Windows profile (assuming same username)
+alias win="cd /mnt/c/Users/$(whoami)"
+
+# Reload shell
 alias reload='exec $SHELL -l'
 
 # Print each PATH entry on a separate line

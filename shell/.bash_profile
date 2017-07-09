@@ -43,3 +43,4 @@ unset -f source_bash_files
 # and time of the last login, the message of the day, etc.).
 
 # clear
+# echo -e "Logged in as $(whoami) at $(date -R)\n"

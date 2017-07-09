@@ -5,7 +5,7 @@
 # Enable color support.
 if [ -x /usr/bin/dircolors ]; then
 
-  if test -r ~/.dircolorS; then
+  if test -r ~/.dircolors; then
     eval "$(dircolors -b ~/.dircolors)"
   else
     eval "$(dircolors -b)"
@@ -32,12 +32,13 @@ fi
 LS_COLORS=""
 
 LS_COLORS+="no=0;39:"   # Global default
-LS_COLORS+="di=0;36:"   # Directory
+LS_COLORS+="di=0;35:"   # Directory
 LS_COLORS+="ex=0;32:"   # Executable file
-LS_COLORS+="fi=0;39:"   # File
+LS_COLORS+="fi=0;97:"   # File
 LS_COLORS+="ec=:"       # Non-filename text
-LS_COLORS+="mi=1;31:"   # Non-existent file pointed to by a symlink
+LS_COLORS+="mi=41;97:"  # Non-existent file pointed to by a symlink
 LS_COLORS+="ln=target:" # Symbolic link
-LS_COLORS+="or=31;01"   # Symbolic link pointing to a non-existent file
+LS_COLORS+="or=41;97:"  # Symbolic link pointing to a non-existent file
+LS_COLORS+="ow=0;34"    # Other writable (non-sticky) files
 
 export LS_COLORS

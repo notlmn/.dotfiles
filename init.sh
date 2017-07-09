@@ -17,7 +17,7 @@ copy_required_files() {
   )
 
   local files_to_copy=(
-    ".dircolors"
+
   )
 
   # where the files need to be copied to
@@ -42,11 +42,12 @@ copy_required_files() {
 doIt() {
   copy_required_files
 
-  sudo ./install/main.sh
+  # Installing packages requires elevation
+  sudo './install/main.sh'
 
-  if [ -x ./sensible/init.sh ]; then
+  if [ -x './sensible/init.sh' ]; then
     printf "\n%s\n" "• Running sensibles..."
-    source ./sensible/init.sh
+    . './sensible/init.sh'
   fi
 
   printf "\n%s\n" "You're good to go!"
