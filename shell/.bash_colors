@@ -2,26 +2,6 @@
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Enable color support.
-if [ -x /usr/bin/dircolors ]; then
-
-  if test -r ~/.dircolors; then
-    eval "$(dircolors -b ~/.dircolors)"
-  else
-    eval "$(dircolors -b)"
-  fi
-
-  alias dir="dir --color=auto"
-  alias egrep="egrep --color=auto"
-  alias fgrep="fgrep --color=auto"
-  alias grep="grep --color=auto"
-  alias ls="ls --color=auto"
-  alias vdir="vdir --color=auto"
-
-fi
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 # Set LS_COLORS (GNU).
 #
 #  - `ls` displays colors if the `--color` option is passed.
@@ -42,3 +22,21 @@ LS_COLORS+="or=41;97:"  # Symbolic link pointing to a non-existent file
 LS_COLORS+="ow=0;34"    # Other writable (non-sticky) files
 
 export LS_COLORS
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Enable color support.
+if [ -x /usr/bin/dircolors ]; then
+
+  if test -r ~/.dircolors; then
+    eval "$(dircolors -b ~/.dircolors)"
+  fi
+
+  alias dir="dir --color=auto"
+  alias egrep="egrep --color=auto"
+  alias fgrep="fgrep --color=auto"
+  alias grep="grep --color=auto"
+  alias ls="ls --color=auto"
+  alias vdir="vdir --color=auto"
+
+fi
