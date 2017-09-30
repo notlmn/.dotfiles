@@ -14,6 +14,7 @@ main() {
     -type f \
     ! -path './git/*' \
     ! -path './vim/*' \
+    ! -path './media/*' \
     ! -path './sensible/*' \
     ! -path './.dircolors' \
     ! -path './shell/.inpurtc' \

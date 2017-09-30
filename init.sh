@@ -24,8 +24,6 @@ copy_required_files() {
   local target_dir="$HOME"
 
   for dir_to_copy in ${dirs_to_copy[*]}; do
-    local files=( "$( find "$dir_to_copy" | tr "" "" | tr "\n" " " )" )
-
     execute "cp -rf '${dir_to_copy}/.' ${target_dir}" "Copying '${dir_to_copy}' contents to '${target_dir}'"
   done
 
@@ -42,13 +40,13 @@ copy_required_files() {
 doIt() {
   copy_required_files
 
-  # Installing packages requires elevation
-  sudo './install/main.sh'
-
   if [ -x './sensible/init.sh' ]; then
     printf "\n%s\n" "• Running sensibles..."
     . './sensible/init.sh'
   fi
+
+  # Installing packages requires elevation
+  sudo './install/main.sh'
 
   printf "\n%s\n" "You're good to go!"
 }

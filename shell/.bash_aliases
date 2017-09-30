@@ -17,7 +17,7 @@ alias rm="rm -rf --"
 alias t="tmux"
 
 # Quickly change to Windows profile (assuming same username)
-alias win="cd /mnt/c/Users/$(whoami)"
+alias win="cd /mnt/c/Users/\$(whoami)"
 
 # Reload shell
 alias reload='exec $SHELL -l'
