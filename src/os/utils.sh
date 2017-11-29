@@ -1,20 +1,26 @@
 #!/bin/bash
 
 answer_is_yes() {
+
   [[ "$REPLY" =~ ^[Yy]$ ]] \
     && return 0 \
     || return 1
+
 }
 
 ask() {
+
   print_question "$1"
   read -r
+
 }
 
 ask_for_confirmation() {
+
   print_question "$1 (y/n) "
   read -r -n 1
   printf "\n"
+
 }
 
 ask_for_sudo() {
@@ -148,6 +154,7 @@ is_supported_version() {
 }
 
 mkd() {
+
   if [ -n "$1" ]; then
     if [ -e "$1" ]; then
       if [ ! -d "$1" ]; then
@@ -159,23 +166,24 @@ mkd() {
       execute "mkdir -p $1" "$1"
     fi
   fi
-}
 
-print_error() {
-  print_in_red "  [x] $1 $2\n"
 }
 
 print_error_stream() {
+
   while read -r line; do
     print_error "ERROR: $line"
   done
+
 }
 
 print_in_color() {
+
   printf "%b" \
     "$(tput setaf "$2" 2> /dev/null)" \
     "$1" \
     "$(tput sgr0 2> /dev/null)"
+
 }
 
 print_in_green() {
@@ -214,6 +222,10 @@ print_success() {
   print_in_green "  [•] $1\n"
 }
 
+print_error() {
+  print_in_red "  [x] $1 $2\n"
+}
+
 print_warning() {
   print_in_yellow "  [!] $1\n"
 }
@@ -231,6 +243,20 @@ skip_questions() {
     case $1 in
       -y|--yes) return 0;;
               *) break;;
+    esac
+    shift 1
+  done
+
+  return 1
+
+}
+
+skip_questions() {
+
+  while :; do
+    case $1 in
+      -y|--yes) return 0;;
+             *) break;;
     esac
     shift 1
   done

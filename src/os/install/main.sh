@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd "$(dirname "${BASH_SOURCE[0]}")" \
-  && . "./utils.sh"
+  && . "../utils.sh"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -63,11 +63,6 @@ main() {
 
   echo -e "\n• Installing packages..."
 
-  ask_for_confirmation "Do you want to install packages?"
-  if ! answer_is_yes; then
-    return
-  fi
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   update
@@ -83,23 +78,19 @@ main() {
 
   install_package "Git" "git"
 
-  install_package "ImageMagick" "imagemagick"
-
-  install_package "FFmpeg" "ffmpeg"
   install_package "cURL" "curl"
+
   install_package "ShellCheck" "shellcheck"
 
   install_package "tmux" "tmux"
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  ask_for_confirmation "Do you want to install NodeJS?"
-  if answer_is_yes; then
-    execute "(curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -) && \
-      (sudo apt-get install nodejs)" "NodeJS"
-  fi
+  execute "(curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -) && \
+    (sudo apt-get install nodejs)" "Node.js"
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   autoremove
 }
 

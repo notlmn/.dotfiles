@@ -1,5 +1,8 @@
 #!/bin/bash
 
+cd "$(dirname "${BASH_SOURCE[0]}")" \
+  && source "../src/os/utils.sh"
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 main() {
@@ -10,19 +13,12 @@ main() {
   #  (from: https://twitter.com/astarasikov/status/568825996532707330)
 
   find \
-    ./ \
+    ../src/os \
+    ../src/shell \
+    ../test \
     -type f \
-    ! -path './git/*' \
-    ! -path './vim/*' \
-    ! -path './media/*' \
-    ! -path './sensible/*' \
-    ! -path './.dircolors' \
-    ! -path './shell/.inpurtc' \
-    ! -path './.gitignore' \
-    ! -path './README.md' \
-    ! -path './LICENSE' \
-    ! -path './tmux/*' \
-    ! -path './.git/*' \
+    ! -path '../src/os/sensible/*' \
+    ! -path '../src/shell/inputrc' \
     -exec shellcheck \
       -e SC1090 \
       -e SC1091 \
@@ -30,7 +26,7 @@ main() {
       -e SC2164 \
     {} +
 
-  echo "'$?'" "Ran code through ShellCheck"
+  print_result $? "Ran code through ShellCheck"
 
 }
 
