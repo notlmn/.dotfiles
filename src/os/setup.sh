@@ -4,9 +4,7 @@ declare skipQuestions=false
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-copy_required_files() {
-
-  printf "\n%s\n" "• Copying dotfiles..."
+stage__copy_dotfiles() {
 
   # directories that are to be copied
   local dirs_to_copy=(
@@ -22,17 +20,18 @@ copy_required_files() {
 
   # where the files need to be copied to
   local target_dir="$HOME"
+  local parent_dir=$(realpath "${current_dir}/../")
 
   for dir_to_copy in ${dirs_to_copy[*]}; do
     execute \
-      "cp -rf \"../${dir_to_copy}/.\" \"${target_dir}\"" \
-      "Copying \"${dir_to_copy}\" contents to \"${target_dir}\""
+      "cp -rf '${parent_dir}/${dir_to_copy}/.' '${target_dir}'" \
+      "Copying '${dir_to_copy}' contents to '${target_dir}'"
   done
 
   for file in ${files_to_copy[*]}; do
     execute \
-      "cp -rf \"../${file}\" \"${target_dir}\"" \
-      "Copying \"${file}\" to \"${target_dir}\""
+      "cp -rf '${parent_dir}/${file}' '${target_dir}'" \
+      "Copying '${file}' to '${target_dir}'"
   done
 
   unset file
@@ -42,34 +41,28 @@ copy_required_files() {
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-doIt() {
+stage__install_packages() {
 
-  copy_required_files
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  . "./install/main.sh"
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  if [ -x "./sensible/main.sh" ]; then
-    printf "\n%s\n" "• Running sensibles..."
-    . "./sensible/main.sh"
-  fi
-
-  print_in_green "\n• You're good to go!\n"
+  . "${current_dir}/install/main.sh"
 
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+stage__run_sensible_script() {
+
+  . "${current_dir}/sensible/main.sh"
+
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 main() {
 
   # Ensure that the following actions
   # are made relative to this file"s path.
-  cd "$(dirname "${BASH_SOURCE[0]}")" \
-    || exit 1
-
-  . './utils.sh'
+  declare current_dir="$(dirname "${BASH_SOURCE[0]}")" && \
+    . "$(realpath "${current_dir}/utils.sh")"
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -78,6 +71,7 @@ main() {
   print_in_color "    / __  / __ \/ __/ /_/ / / _ \/ ___/   \n" 3
   print_in_color "   / /_/ / /_/ / /_/ __/ / /  __(__  )    \n" 5
   print_in_color "   \__,_/\____/\__/_/ /_/_/\___/____/     \n" 6
+  printf "\n"
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -90,26 +84,48 @@ main() {
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  execute_stage "Dotfiles" "Copy dotfiles?" stage__copy_dotfiles
+
+  execute_stage "Packages" "Install packages?" stage__install_packages
+
+  if [ -x "${current_dir}/sensible/main.sh" ]; then
+    execute_stage "Sensible" "Run sensible script?" stage__run_sensible_script
+  fi
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+  print_in_green "\nDone!\n"
+
+}
+
+execute_stage() {
+
+  local stage=$1
+  local question=$2
+  local func=$3
+
+  printf "\n%s\n" "• Stage: '$stage'"
+
   if $skipQuestions; then
-    doIt
+    $func
   else
 
-    printf "\n%s\n" "• Initializing..."
-    ask_for_confirmation "Are you sure?"
+    ask_for_confirmation "$question"
 
     if answer_is_yes; then
-      doIt
+      $func
     else
-      print_in_red "\n• Quitting\n"
-      exit 1
+      print_in_yellow "  [!] Skipping \"$stage\"\n"
     fi
 
   fi
-
 }
 
 main "$@"
 
-unset -f copy_required_files
-unset -f doIt
+unset -f stage__copy_dotfiles
+unset -f stage__install_packages
+unset -f stage__run_sensible_script
+unset -f execute_stage
 unset -f main

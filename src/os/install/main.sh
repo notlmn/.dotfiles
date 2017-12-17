@@ -1,7 +1,8 @@
 #!/bin/bash
 
-cd "$(dirname "${BASH_SOURCE[0]}")" \
-  && . "../utils.sh"
+
+declare current_dir="$(dirname "${BASH_SOURCE[0]}")" && \
+  . "$(realpath "${current_dir}/../utils.sh")"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -51,7 +52,7 @@ upgrade() {
 
   execute \
     "export DEBIAN_FRONTEND=\"noninteractive\" \
-      && sudo apt-get -o Dpkg::Options::=\"--force-confnew\" upgrade -qqy" \
+      && sudo apt -o Dpkg::Options::=\"--force-confnew\" upgrade -qqy" \
     "APT (upgrade)"
 
 }
@@ -60,10 +61,6 @@ upgrade() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 main() {
-
-  echo -e "\n• Installing packages..."
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   update
   upgrade
@@ -86,12 +83,14 @@ main() {
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  execute "(curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -) && \
-    (sudo apt-get install nodejs)" "Node.js"
+  execute "curl -sL \"https://deb.nodesource.com/setup_9.x\" | sudo -E bash -" "Add NodeSource repo"
+
+  install_package "Node.js" "nodejs"
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   autoremove
+
 }
 
 main

@@ -13,9 +13,9 @@ main() {
   #  (from: https://twitter.com/astarasikov/status/568825996532707330)
 
   find \
-    ../src/os \
-    ../src/shell \
-    ../test \
+    '../src/os' \
+    '../src/shell' \
+    '../test' \
     -type f \
     ! -path '../src/os/sensible/*' \
     ! -path '../src/shell/inputrc' \
@@ -26,7 +26,7 @@ main() {
       -e SC2164 \
     {} +
 
-  print_result $? "Ran code through ShellCheck"
+  print_result "$?" "Ran code through ShellCheck"
 
 }
 

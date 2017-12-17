@@ -1,14 +1,14 @@
 #!/bin/bash
 
-cd "$(dirname "${BASH_SOURCE[0]}")"
+declare current_dir="$(dirname "${BASH_SOURCE[0]}")"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 main() {
 
-  ./run_shellcheck.sh
+  . "${current_dir}/run_shellcheck.sh"
 
-  exit $?
+  exit "$?"
 
 }
 
