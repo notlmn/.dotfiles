@@ -7,6 +7,9 @@
   branches = branch -a
   remotes = remote -v
 
+  # checkout is too long to type and often results in a typo
+  co = checkout
+
   # Amend the currently staged files to the latest commit
   amend = commit --amend --reuse-message=HEAD
 
@@ -49,8 +52,8 @@
   renames = copies
 
 [diff "bin"]
-    # Use `hexdump` to diff binary files.
-    textconv = hexdump -v -C
+  # Use `hexdump` to diff binary files.
+  textconv = hexdump -v -C
 
 [pretty]
   custom = "%C(magenta)%h%C(red)%d %C(yellow)%ar %C(green)%s %C(yellow)(%an)"

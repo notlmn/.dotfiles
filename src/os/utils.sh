@@ -27,7 +27,7 @@ ask_for_sudo() {
 
   # Ask for the administrator password upfront.
 
-  sudo -v &> /dev/null
+  sudo -v &> "/dev/null"
 
   # Update existing `sudo` time stamp
   # until this script has finished.
@@ -38,12 +38,12 @@ ask_for_sudo() {
     sudo -n true
     sleep 60
     kill -0 "$$" || exit
-  done &> /dev/null &
+  done &> "/dev/null" &
 
 }
 
 cmd_exists() {
-  command -v "$1" &> /dev/null
+  command -v "$1" &> "/dev/null"
 }
 
 kill_all_subprocesses() {
@@ -52,7 +52,7 @@ kill_all_subprocesses() {
 
   for i in $(jobs -p); do
     kill "$i"
-    wait "$i" &> /dev/null
+    wait "$i" &> "/dev/null"
   done
 
 }
@@ -78,7 +78,7 @@ execute() {
   # Execute commands in background
 
   eval "$CMDS" \
-    &> /dev/null \
+    &> "/dev/null" \
     2> "$TMP_FILE" &
 
   cmdsPID=$!
@@ -95,7 +95,7 @@ execute() {
   # Wait for the commands to no longer be executing
   # in the background, and then get their exit code.
 
-  wait "$cmdsPID" &> /dev/null
+  wait "$cmdsPID" &> "/dev/null"
   exitCode=$?
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -121,7 +121,7 @@ get_answer() {
 }
 
 is_git_repository() {
-  git rev-parse &> /dev/null
+  git rev-parse &> "/dev/null"
 }
 
 is_supported_version() {
@@ -180,9 +180,9 @@ print_error_stream() {
 print_in_color() {
 
   printf "%b" \
-    "$(tput setaf "$2" 2> /dev/null)" \
+    "$(tput setaf "$2" 2> '/dev/null')" \
     "$1" \
-    "$(tput sgr0 2> /dev/null)"
+    "$(tput sgr0 2> '/dev/null')"
 
 }
 
@@ -232,7 +232,7 @@ print_warning() {
 
 set_trap() {
 
-  trap -p "$1" | grep "$2" &> /dev/null \
+  trap -p "$1" | grep "$2" &> "/dev/null" \
     || trap '$2' "$1"
 
 }
@@ -283,7 +283,7 @@ show_spinner() {
 
   # Display spinner while the commands are being executed.
 
-  while kill -0 "$PID" &>/dev/null; do
+  while kill -0 "$PID" &> "/dev/null"; do
 
     frameText="  [${FRAMES:i++%NUMBER_OR_FRAMES:1}] $MSG"
 

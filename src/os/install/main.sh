@@ -33,7 +33,7 @@ install_package() {
 }
 
 package_is_installed() {
-  dpkg -s "$1" &> /dev/null
+  dpkg -s "$1" &> "/dev/null"
 }
 
 update() {

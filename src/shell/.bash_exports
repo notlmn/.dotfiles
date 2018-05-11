@@ -25,8 +25,8 @@ export LANG="en_US"
 export LC_ALL="en_US.UTF-8"
 
 # Use custom `less` colors for `man` pages.
-export LESS_TERMCAP_md="$(tput bold 2> /dev/null; tput setaf 2 2> /dev/null)"
-export LESS_TERMCAP_me="$(tput sgr0 2> /dev/null)"
+export LESS_TERMCAP_md="$(tput bold 2> '/dev/null'; tput setaf 2 2> '/dev/null')"
+export LESS_TERMCAP_me="$(tput sgr0 2> '/dev/null')"
 
 # Don't clear the screen after quitting a `man` page.
 export MANPAGER="less -X"
@@ -43,3 +43,6 @@ export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 # Make Python use UTF-8 encoding for output to stdin/stdout/stderr.
 export PYTHONIOENCODING="UTF-8"
+
+# Required for GPGv2 to prompt for passphrase entry
+export GPG_TTY=$(tty)
