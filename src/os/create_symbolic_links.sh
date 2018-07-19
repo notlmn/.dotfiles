@@ -29,13 +29,16 @@ create_symlinks() {
 
     "vim/.vim"
     "vim/.vimrc"
-    "vim/.vim/colors/one.vim"
 
   )
 
+  local i=""
+  local sourceFile=""
+  local targetFile=""
+
   for i in "${FILES_TO_SYMLINK[@]}"; do
     sourceFile="$(cd .. && pwd)/$i"
-    targetFile="$HOME/.$(printf "%s" "$i" | sed "s/.*\/\(.*\)/\1/g")"
+    targetFile="$HOME/$(printf "%s" "$i" | sed "s/.*\/\(.*\)/\1/g")"
 
     execute \
       "ln -fs $sourceFile $targetFile" \

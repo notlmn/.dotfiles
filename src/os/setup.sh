@@ -11,7 +11,7 @@ declare skipQuestions=false
 
 stage__symlink_dotfiles() {
 
-  . "${current_dir}/install/create_symbolic_links.sh"
+  . "${current_dir}/create_symbolic_links.sh"
 
 }
 
