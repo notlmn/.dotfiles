@@ -1,10 +1,8 @@
-# ramlmn's dotfiles
-A slightly strip down, and customized version of dotfiles by [alrra](https://github.com/alrra),
-[mathias](https://github.com/mathiasbynens), and [paulirish](https://github.com/paulirish).
+# dotfiles
 
 ## Installation
 ``` bash
-$ git clone https://github.com/ramlmn/.dotfiles.git
+$ git clone https://github.com/notlmn/.dotfiles.git
 $ cd .dotfiles
 $ ./src/os/setup.sh
 ```
