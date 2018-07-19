@@ -4,38 +4,9 @@ declare skipQuestions=false
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-stage__copy_dotfiles() {
+stage__symlink_dotfiles() {
 
-  # directories that are to be copied
-  local dirs_to_copy=(
-    "git"
-    "shell"
-    "vim"
-    "tmux"
-  )
-
-  local files_to_copy=(
-
-  )
-
-  # where the files need to be copied to
-  local target_dir="$HOME"
-  local parent_dir=$(realpath "${current_dir}/../")
-
-  for dir_to_copy in ${dirs_to_copy[*]}; do
-    execute \
-      "cp -rf '${parent_dir}/${dir_to_copy}/.' '${target_dir}'" \
-      "Copying '${dir_to_copy}' contents to '${target_dir}'"
-  done
-
-  for file in ${files_to_copy[*]}; do
-    execute \
-      "cp -rf '${parent_dir}/${file}' '${target_dir}'" \
-      "Copying '${file}' to '${target_dir}'"
-  done
-
-  unset file
-  unset dir_to_copy
+  . "${current_dir}/install/create_symbolic_links.sh"
 
 }
 
@@ -53,6 +24,31 @@ stage__run_sensible_script() {
 
   . "${current_dir}/sensible/main.sh"
 
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+execute_stage() {
+
+  local stage=$1
+  local question=$2
+  local func=$3
+
+  printf "\n%s\n" "• Stage: '$stage'"
+
+  if $skipQuestions; then
+    $func
+  else
+
+    ask_for_confirmation "$question"
+
+    if answer_is_yes; then
+      $func
+    else
+      print_in_yellow "  [!] Skipping \"$stage\"\n"
+    fi
+
+  fi
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -84,7 +80,7 @@ main() {
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  execute_stage "Dotfiles" "Copy dotfiles?" stage__copy_dotfiles
+  execute_stage "Dotfiles" "Symlink dotfiles?" stage__symlink_dotfiles
 
   execute_stage "Packages" "Install packages?" stage__install_packages
 
@@ -99,32 +95,11 @@ main() {
 
 }
 
-execute_stage() {
-
-  local stage=$1
-  local question=$2
-  local func=$3
-
-  printf "\n%s\n" "• Stage: '$stage'"
-
-  if $skipQuestions; then
-    $func
-  else
-
-    ask_for_confirmation "$question"
-
-    if answer_is_yes; then
-      $func
-    else
-      print_in_yellow "  [!] Skipping \"$stage\"\n"
-    fi
-
-  fi
-}
-
 main "$@"
 
-unset -f stage__copy_dotfiles
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+unset -f stage__symlink_dotfiles
 unset -f stage__install_packages
 unset -f stage__run_sensible_script
 unset -f execute_stage
