@@ -1,7 +1,7 @@
 #!/bin/bash
 
 declare current_dir="$(dirname "${BASH_SOURCE[0]}")" && \
-  . "$(realpath "${current_dir}/utils.sh")"
+  . "$(readlink -f "${current_dir}/utils.sh")"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

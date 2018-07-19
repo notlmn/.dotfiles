@@ -1,5 +1,10 @@
 #!/bin/bash
 
+declare current_dir="$(dirname "${BASH_SOURCE[0]}")" && \
+    . "$(readlink -f "${current_dir}/utils.sh")"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 declare skipQuestions=false
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -54,13 +59,6 @@ execute_stage() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 main() {
-
-  # Ensure that the following actions
-  # are made relative to this file"s path.
-  declare current_dir="$(dirname "${BASH_SOURCE[0]}")" && \
-    . "$(realpath "${current_dir}/utils.sh")"
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   print_in_color "          __      __  _____ __            \n" 1
   print_in_color "     ____/ /___  / /_/ __(_) /__  _____   \n" 2
