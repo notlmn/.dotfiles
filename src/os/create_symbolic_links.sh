@@ -37,7 +37,7 @@ create_symlinks() {
   local targetFile=""
 
   for i in "${FILES_TO_SYMLINK[@]}"; do
-    sourceFile="$(cd .. && pwd)/$i"
+    sourceFile="$(cd $current_dir && cd .. && pwd)/$i"
     targetFile="$HOME/$(printf "%s" "$i" | sed "s/.*\/\(.*\)/\1/g")"
 
     execute \

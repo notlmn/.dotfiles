@@ -46,3 +46,11 @@ export PYTHONIOENCODING="UTF-8"
 
 # Required for GPGv2 to prompt for passphrase entry
 export GPG_TTY=$(tty)
+
+# Default display source host and display number
+export DISPLAY=:0
+
+# Always perform direct rendering with GPU
+#
+# https://unix.stackexchange.com/a/1441
+export LIBGL_ALWAYS_INDIRECT=1
