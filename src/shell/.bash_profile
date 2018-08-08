@@ -39,8 +39,12 @@ unset -f source_bash_files
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Clear system messages (system copyright notice, the date
-# and time of the last login, the message of the day, etc.).
+# Change default shell to tmux
+if [[ -x "$(command -v tmux)" ]]; then
 
-# clear
-# echo -e "Logged in as $(whoami) at $(date -R)\n"
+  # Additional check to not run tmux within itself
+  #
+  # https://unix.stackexchange.com/a/113768
+  [[ "$TERM" != "screen" ]] && [ -z "$TMUX" ] && exec tmux
+
+fi

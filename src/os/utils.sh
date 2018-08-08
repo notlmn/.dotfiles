@@ -42,10 +42,6 @@ ask_for_sudo() {
 
 }
 
-cmd_exists() {
-  command -v "$1" &> "/dev/null"
-}
-
 kill_all_subprocesses() {
 
   local i=""
