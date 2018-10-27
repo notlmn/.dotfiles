@@ -48,7 +48,7 @@ export PYTHONIOENCODING="UTF-8"
 export GPG_TTY=$(tty)
 
 # Default display source host and display number
-export DISPLAY=:0
+export DISPLAY=:0.0
 
 # Always perform direct rendering with GPU
 #
