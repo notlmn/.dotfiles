@@ -33,6 +33,15 @@ stage__run_sensible_script() {
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+stage__instantiate_submodules() {
+
+  execute "git submodule init" "Inializing Git submodules"
+  execute "git submodule update" "Updating Git submodules"
+
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 execute_stage() {
 
   local stage=$1
@@ -80,6 +89,8 @@ main() {
 
   execute_stage "Dotfiles" "Symlink dotfiles?" stage__symlink_dotfiles
 
+  execute_stage "Submodules" "Instantiate submodules?" stage__instantiate_submodules
+
   execute_stage "Packages" "Install packages?" stage__install_packages
 
   if [ -x "${current_dir}/sensible/main.sh" ]; then
@@ -100,5 +111,6 @@ main "$@"
 unset -f stage__symlink_dotfiles
 unset -f stage__install_packages
 unset -f stage__run_sensible_script
+unset -f stage__instantiate_submodules
 unset -f execute_stage
 unset -f main

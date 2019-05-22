@@ -83,7 +83,7 @@ main() {
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  execute "curl -sL \"https://deb.nodesource.com/setup_9.x\" | sudo -E bash -" "Add NodeSource repo"
+  execute "curl -sL \"https://deb.nodesource.com/setup_12.x\" | sudo -E bash -" "Add NodeSource repo"
 
   install_package "Node.js" "nodejs"
 

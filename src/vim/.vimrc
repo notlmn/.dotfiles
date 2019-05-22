@@ -1,3 +1,12 @@
+" ----------------------------------------------------------------------
+" | Vim packages                                                       |
+" ----------------------------------------------------------------------
+packadd! onedark.vim
+
+
+" ----------------------------------------------------------------------
+" | Configuration                                                      |
+" ----------------------------------------------------------------------
 set nocompatible               " Don't make Vim vi-compatibile.
 
 syntax on                      " Enable syntax highlighting.
@@ -103,95 +112,6 @@ set wildmenu                   " Enable enhanced command-line
 set winminheight=0             " Allow windows to be squashed.
 
 
-" ----------------------------------------------------------------------
-" | Helper Functions                                                   |
-" ----------------------------------------------------------------------
-
-function! GetGitBranchName()
-
-  let branchName = ""
-
-  if exists("g:loaded_fugitive")
-    let branchName = "[" . fugitive#head() . "]"
-  endif
-
-  return branchName
-
-endfunction
-
-function! StripTrailingWhitespaces()
-
-  " Save last search and cursor position.
-  let searchHistory = @/
-  let cursorLine = line(".")
-  let cursorColumn = col(".")
-
-  " Strip trailing whitespaces.
-  %s/\s\+$//e
-
-  " Restore previous search history and cursor position.
-  let @/ = searchHistory
-  call cursor(cursorLine, cursorColumn)
-
-endfunction
-
-function! ToggleRelativeLineNumbers()
-
-  if ( &relativenumber == 1 )
-    set number
-  else
-    set relativenumber
-  endif
-
-endfunction
-
-" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-" ----------------------------------------------------------------------
-" | Automatic Commands                                                 |
-" ----------------------------------------------------------------------
-
-if has("autocmd")
-
-  " Autocommand Groups.
-  " http://learnvimscriptthehardway.stevelosh.com/chapters/14.html
-
-  " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  " Automatically reload the configurations from
-  " the `~/.vimrc` file whenever they are changed.
-  augroup auto_reload_vim_configs
-
-    autocmd!
-    autocmd BufWritePost vimrc source $MYVIMRC
-
-  augroup END
-
-  " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  " Automatically strip the trailing
-  " whitespaces when files are saved.
-  augroup strip_trailing_whitespaces
-
-    " List of file types that use the trailing whitespaces:
-    "
-    "  * Markdown
-    "    https://daringfireball.net/projects/markdown/syntax#block
-    let excludedFileTypes = [
-      \ "markdown",
-      \ "mkd.markdown"
-    \]
-
-    " Only strip the trailing whitespaces if
-    " the file type is not in the excluded list.
-    autocmd!
-    autocmd BufWritePre * if index(excludedFileTypes, &ft) < 0 | :call StripTrailingWhitespaces()
-
-  augroup END
-
-endif
-
 
 " ----------------------------------------------------------------------
 " | Color Scheme                                                       |
@@ -202,22 +122,7 @@ set t_Co=256                   " Enable full-color support.
 set background=dark            " Use colors that look good
                                " on a dark background.
 
-colorscheme one                " Use custom color scheme.
-
-
-" ----------------------------------------------------------------------
-" | Key Mappings                                                       |
-" ----------------------------------------------------------------------
-
-" Use a different mapleader (default is "\").
-let mapleader = ","
-
-" [,n ] Toggle `set relativenumber`.
-nmap <leader>n :call ToggleRelativeLineNumbers()<CR>
-
-" [,ss] Strip trailing whitespace.
-nmap <leader>ss :call StripTrailingWhitespaces()<CR>
-
+colorscheme onedark            " Use custom color scheme.
 
 
 " ----------------------------------------------------------------------
