@@ -1,0 +1,22 @@
+# For more information about the configurations used
+# in this file, please see the Travis CI documentation.
+#
+# https://docs.travis-ci.com
+
+dist: bionic
+sudo: required
+language: generic
+
+before_install:
+  - ./test/customize_environment.sh
+
+install:
+  - ./src/install/main.sh --yes
+
+script:
+  - ./test/main.sh
+
+notifications:
+  email:
+    on_failure: always
+    on_success: never
