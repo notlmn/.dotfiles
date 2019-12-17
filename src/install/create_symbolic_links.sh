@@ -1,14 +1,12 @@
 #!/bin/bash
 
 declare current_dir="$(dirname "${BASH_SOURCE[0]}")" && \
-  . "$(readlink -f "${current_dir}/utils.sh")"
+  source "$(readlink -f "${current_dir}/utils.sh")"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 create_symlinks() {
-
   declare -a FILES_TO_SYMLINK=(
-
     "git/.gitattributes"
     "git/.gitconfig"
     "git/.gitignore"
@@ -29,7 +27,6 @@ create_symlinks() {
 
     "vim/.vim"
     "vim/.vimrc"
-
   )
 
   local i=""
@@ -44,7 +41,6 @@ create_symlinks() {
       "ln -fs $sourceFile $targetFile" \
       "$targetFile → $sourceFile"
   done
-
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -1,0 +1,15 @@
+name: Test CI
+on: [push, pull_request]
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v1
+      - name: Customize Environment
+        run: ./test/customize_environment.sh
+      - name: Test
+        run: ./test/main.sh
+      - name: Run
+        run: ./src/install/main.sh

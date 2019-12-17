@@ -3,7 +3,6 @@
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 source_bash_files() {
-
   declare -r CURRENT_DIRECTORY="$(pwd)"
 
   declare -r -a FILES_TO_SOURCE=(
@@ -21,18 +20,15 @@ source_bash_files() {
   local i=""
 
   for i in ${!FILES_TO_SOURCE[*]}; do
-
       file="$HOME/.${FILES_TO_SOURCE[$i]}"
-
-      [ -r "$file" ] && . "$file"
-
+      [ -r "$file" ] && source "$file"
   done
 
   cd "$CURRENT_DIRECTORY"
-
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 source_bash_files
+
 unset -f source_bash_files

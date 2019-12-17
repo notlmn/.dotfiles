@@ -3,7 +3,6 @@
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 enable_color_support() {
-
   if [[ $COLORTERM == gnome-* && $TERM == xterm ]] \
     && infocmp gnome-256color &> '/dev/null'; then
     export TERM="gnome-256color"
@@ -14,7 +13,6 @@ enable_color_support() {
   if [ -x "$HOME/.bash_colors" ]; then
     source "$HOME/.bash_colors"
   fi
-
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -25,7 +23,6 @@ enable_color_support() {
 # is shown.
 
 prompt_git() {
-
   local tmp=""
   local branchName=""
 
@@ -69,25 +66,21 @@ prompt_git() {
     || printf "(unknown)" )" | tr -d "\n" )"
 
   printf "%s" "$1$branchName$2$tmp"
-
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 prompt_node() {
-
   if [[ -x "$(command -v node)" ]]; then
     local version=""
     version="$(node -v)";
     printf "%s" "$1$version$2"
   fi
-
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 set_prompts() {
-
   local reset="\[\e[0m\]"
 
   local red="\[\e[1;31m\]"
@@ -104,7 +97,6 @@ set_prompts() {
   # ------------------------------------------------------------------
   # | PS1 - Default interactive prompt                               |
   # ------------------------------------------------------------------
-
   PS1="\[\033]0;\W\007\]"    # Terminal title (set to the
                          # current working directory)
 
@@ -124,7 +116,6 @@ set_prompts() {
   # ------------------------------------------------------------------
   # | PS2 - Continuation interactive prompt                          |
   # ------------------------------------------------------------------
-
   export PS2="> "
 
   # ------------------------------------------------------------------
@@ -132,13 +123,11 @@ set_prompts() {
   # ------------------------------------------------------------------
   # \011 - tab
   # [!] Don't change to double quotes
-
   export PS4='+\011${blue}${BASH_SOURCE}${reset}:${cyan}${LINENO}\011${FUNCNAME[0]:+${magenta}${FUNCNAME[0]}()${reset}: }'
   #           │                  │                          │                               └ Function name and code
   #           │                  │                          └ Line number
   #           │                  └ Source file name
   #           └ Char to repeat for each stack level
-
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -151,8 +140,6 @@ main() {
 main
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# Cleanup.
 
 unset -f enable_color_support
 unset -f set_prompts

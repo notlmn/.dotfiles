@@ -1,23 +1,21 @@
 #!/bin/bash
 
-cd "$(dirname "${BASH_SOURCE[0]}")" \
-  && source "../src/os/utils.sh"
+cd "$(dirname "${BASH_SOURCE[0]}")" && \
+  source "../src/install/utils.sh"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 main() {
-
   # ' At first you're like "shellcheck is awesome" but then you're
   #   like "wtf are we still using bash" '.
   #
   #  (from: https://twitter.com/astarasikov/status/568825996532707330)
 
   find \
-    '../src/os' \
+    '../src/install' \
     '../src/shell' \
     '../test' \
     -type f \
-    ! -path '../src/os/sensible/*' \
     ! -path '../src/shell/inputrc' \
     -exec shellcheck \
       -e SC1090 \
@@ -27,7 +25,6 @@ main() {
     {} +
 
   print_result "$?" "Ran code through ShellCheck"
-
 }
 
 main

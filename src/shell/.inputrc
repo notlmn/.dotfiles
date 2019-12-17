@@ -14,7 +14,6 @@ set show-all-if-ambiguous off
 
 # Mappings for Ctrl-left-arrow and Ctrl-right-arrow for word moving
 # from https://github.com/alrra/dotfiles/issues/38#issuecomment-277527017
-
 "\e[1;5C": forward-word
 "\e[1;5D": backward-word
 "\e[5C": forward-word
