@@ -12,4 +12,4 @@ jobs:
       - name: Test
         run: ./test/main.sh
       - name: Run
-        run: ./src/install/main.sh
+        run: ./src/install/main.sh --yes
